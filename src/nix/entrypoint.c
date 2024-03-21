@@ -91,17 +91,18 @@ __attribute__((constructor)) void doorstop_ctor() {
     }
 
     if (plthook_replace(hook, "dlsym", &dlsym_hook, NULL) != 0)
-        printf("Failed to hook dlsym, ignoring it. Error: %s\n",
+      fprintf(stderr,"Failed to hook dlsym, ignoring it. Error: %s\n",
                plthook_error());
 
     if (plthook_replace(hook, "fclose", &fclose_hook, NULL) != 0)
-        printf("Failed to hook fclose, ignoring it. Error: %s\n",
-               plthook_error());
+      printf(stderr,"Failed to hook fclose, ignoring it. Error: %s\n",
+	     plthook_error());
 
     if (plthook_replace(hook, "dup2", &dup2_hook, NULL) != 0)
-        printf("Failed to hook dup2, ignoring it. Error: %s\n",
-               plthook_error());
-
+      fprintf(stderr,"Failed to hook dup2, ignoring it. Error: %s\n",
+	      plthook_error());
+    
+    
 #if defined(__APPLE__)
     /*
         On older Unity versions, Mono methods are resolved by the OS's

@@ -826,12 +826,7 @@ int plthook_replace(plthook_t *plthook, const char *funcname, void *funcaddr,
         return PLTHOOK_INVALID_ARGUMENT;
     }
     while ((rv = plthook_enum(plthook, &pos, &name, &addr)) == 0) {
-      //printf("Sym : 0x%p %s %c(%d) \n",addr,name,name[funcnamelen],name[funcnamelen]);
       if (strncmp(name, funcname, funcnamelen) == 0) {
-        /* if((*((long long int*)addr) & 0xff00000000) == 0){
-          // not resolved yet
-          return PLTHOOK_FUNCTION_NOT_FOUND;
-          }*/
             if (name[funcnamelen] == '\0' || name[funcnamelen] == '@') {
                 int prot = get_memory_permission(addr);
                 if (prot == 0) {
@@ -846,12 +841,7 @@ int plthook_replace(plthook_t *plthook, const char *funcname, void *funcaddr,
                         return PLTHOOK_INTERNAL_ERROR;
                     }
                 }
-                if(*addr == funcaddr){
-                  fprintf(stderr,"ALREADY HOOKED %p %s\n",addr,name);
-                  return 0;
-                }else{
-                  fprintf(stderr,"HOOKING %p %s\n",addr,name);
-                  if (oldfunc) {
+                if (oldfunc) {
                     *oldfunc = *addr;
                   }
                   *addr = funcaddr;
